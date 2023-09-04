@@ -1,3 +1,4 @@
 - Bruce Tate
+- Doug Hall
 - Meks McClure (they/them)
 - Brandon Rainbolt
