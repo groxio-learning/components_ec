@@ -1,2 +1,3 @@
 - Bruce Tate
 - Meks McClure (they/them)
+- Nicholas Kirchner
