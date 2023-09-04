@@ -1,3 +1,6 @@
 - Bruce Tate
+- Doug Hall
 - Meks McClure (they/them)
 - Rich Nash
+- Nicholas Kirchner
+- Brandon Rainbolt
