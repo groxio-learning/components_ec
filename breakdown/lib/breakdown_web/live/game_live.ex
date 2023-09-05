@@ -47,6 +47,71 @@ defmodule BreakdownWeb.WordxLive do
         <div class="rounded bg-gray-500 pt-2 pb-2 text-white">E</div>
         <div class="rounded bg-green-600 pt-2 pb-2 text-white">S</div>
         <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">S</div>
+
+        <div class="rounded bg-green-600 pt-2 pb-2 text-white">G</div>
+        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">U</div>
+        <div class="rounded bg-gray-500 pt-2 pb-2 text-white">E</div>
+        <div class="rounded bg-green-600 pt-2 pb-2 text-white">S</div>
+        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">S</div>
+
+        <div class="rounded bg-green-600 pt-2 pb-2 text-white">G</div>
+        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">U</div>
+        <div class="rounded bg-gray-500 pt-2 pb-2 text-white">E</div>
+        <div class="rounded bg-green-600 pt-2 pb-2 text-white">S</div>
+        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">S</div>
+
+        <div class="rounded bg-green-600 pt-2 pb-2 text-white">G</div>
+        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">U</div>
+        <div class="rounded bg-gray-500 pt-2 pb-2 text-white">E</div>
+        <div class="rounded bg-green-600 pt-2 pb-2 text-white">S</div>
+        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">S</div>
+
+        <div class="rounded bg-green-600 pt-2 pb-2 text-white">G</div>
+        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">U</div>
+        <div class="rounded bg-gray-500 pt-2 pb-2 text-white">E</div>
+        <div class="rounded bg-green-600 pt-2 pb-2 text-white">S</div>
+        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">S</div>
+    </div>
+
+    <br/>
+    <br/>
+    <hr/>
+    <br/>
+    <br/>
+
+    <div class="grid grid-cols-10 gap-3 text-center font-bold">
+        <div class="rounded bg-green-600 pt-1 pb-1 text-white">Q</div>
+        <div class="rounded bg-yellow-500 pt-1 pb-1 text-white">W</div>
+        <div class="rounded bg-gray-500 pt-1 pb-1 text-white">E</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">R</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">T</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">Y</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">U</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">I</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">O</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">P</div>
+
+        <div class="rounded bg-green-600 pt-1 pb-1 text-white">A</div>
+        <div class="rounded bg-yellow-500 pt-1 pb-1 text-white">S</div>
+        <div class="rounded bg-gray-500 pt-1 pb-1 text-white">D</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">F</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">G</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">H</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">J</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">K</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">L</div>
+        <div></div>
+
+        <div></div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">Z</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">X</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">C</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">V</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">B</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">N</div>
+        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">M</div>
+        <div></div>
+        <div></div>
     </div>
     </div>
     """
