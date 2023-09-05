@@ -5,8 +5,8 @@ defmodule Breakdown.Game.Turn do
 
   def add_letter(guess, letter) do
     case length(guess) do
-      5 ->  guess
-      _ ->  [letter | guess]
+      5 -> guess
+      _ -> [letter | guess]
     end
   end
 

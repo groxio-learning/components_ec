@@ -2,18 +2,27 @@ defmodule BreakdownWeb.WordxLive do
   use BreakdownWeb, :live_view
   alias Breakdown.Game.Core
   alias Breakdown.Game
+  alias Breakdown.Game.Turn
 
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:game, Game.new() |> Core.guess("house") |> Core.guess("guest") |> Core.guess("guess"))
+     |> assign(
+       :game,
+       Game.new() |> Core.guess("house") |> Core.guess("guest") |> Core.guess("guess")
+     )
+     |> reset_turn()
      |> assign(:guess, "ABC")}
+  end
+
+  defp reset_turn(socket) do
+    assign(socket, :turn, Turn.new())
   end
 
   def render(assigns) do
     ~H"""
     <pre>
-      <%= inspect @game, pretty: true %>
+      <%= inspect @turn, pretty: true %>
     </pre>
     <p>Hello World</p>
     <.everything guess={@guess} game={@game} />
@@ -56,7 +65,7 @@ defmodule BreakdownWeb.WordxLive do
       <br />
       <br />
 
-      <.grid >
+      <.grid>
         <.input_row guess={@guess} />
 
         <.score_row :for={score <- Enum.reverse(@game.scores)} score={score} />
@@ -107,15 +116,17 @@ defmodule BreakdownWeb.WordxLive do
   end
 
   slot :inner_block
+
   def grid(assigns) do
     ~H"""
-      <div class="grid grid-cols-5 gap-4 text-center font-bold">
-        <%= render_slot @inner_block %>
-      </div>
+    <div class="grid grid-cols-5 gap-4 text-center font-bold">
+      <%= render_slot(@inner_block) %>
+    </div>
     """
   end
 
   attr :guess, :string, required: true
+
   def input_row(assigns) do
     ~H"""
     <.letter :for={letter <- split_guess(@guess)} color={:white} letter={letter} />
@@ -130,6 +141,7 @@ defmodule BreakdownWeb.WordxLive do
 
   attr :color, :atom, required: true
   attr :letter, :string, required: true
+
   def letter(assigns) do
     ~H"""
     <div class={[letter_color(@color), "pt-2 pb-2 rounded"]}>
