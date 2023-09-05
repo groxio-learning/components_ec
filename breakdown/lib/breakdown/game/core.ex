@@ -44,6 +44,10 @@ defmodule Breakdown.Game.Core do
     %{scores: game.scores, status: game.status, keyboard: keyboard_letters(game)}
   end
 
+  def to_keyboard(game) do
+    keyboard_letters(game)
+  end
+
   defp keyboard_letters(game) do
     all_letters = for c <- ?a..?z, into: %{}, do: {<<c>>, :white}
 
