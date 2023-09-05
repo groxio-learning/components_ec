@@ -3,8 +3,10 @@ defmodule BreakdownWeb.WordxLive do
   alias Breakdown.Game.Core
 
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :game, Core.new())}
-
+    {:ok,
+     socket
+     |> assign(:game, Core.new())
+     |> assign(:guess, "ABC")}
   end
 
   def render(assigns) do
@@ -13,7 +15,7 @@ defmodule BreakdownWeb.WordxLive do
       <%= inspect @game, pretty: true %>
     </pre>
     <p>Hello World</p>
-    <.everything />
+    <.everything guess={@guess} />
     <.move />
     """
   end
@@ -36,68 +38,64 @@ defmodule BreakdownWeb.WordxLive do
   def everything(assigns) do
     ~H"""
     <div class="mx-auto max-w-sm">
-    <header class="flex items-center justify-between gap-6"}>
-    <div>
-        <h1 class="text-lg font-semibold leading-8 text-zinc-800">
-        Hello,
-        </h1>
-        <p class="mt-2 text-sm leading-6 text-zinc-600">
-        World
-        </p>
-    </div>
-    </header>
+      <header class="flex items-center justify-between gap-6" }>
+        <div>
+          <h1 class="text-lg font-semibold leading-8 text-zinc-800">
+            Hello,
+          </h1>
+          <p class="mt-2 text-sm leading-6 text-zinc-600">
+            World
+          </p>
+        </div>
+      </header>
 
-    <br/>
-    <br/>
-    <hr/>
-    <br/>
-    <br/>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <br />
 
-    <div class="grid grid-cols-5 gap-4 text-center font-bold">
-        <div class="rounded border-2 border-gray-500 pt-2 pb-2 text-white">-</div>
-        <div class="rounded border-2 border-gray-500 pt-2 pb-2"> </div>
-        <div class="rounded border-2 border-gray-500 pt-2 pb-2"> </div>
-        <div class="rounded border-2 border-gray-500 pt-2 pb-2"> </div>
-        <div class="rounded border-2 border-gray-500 pt-2 pb-2"> </div>
+      <div class="grid grid-cols-5 gap-4 text-center font-bold">
+        <.letter :for={letter <- split_guess(@guess)} color={:white} letter={letter} />
 
-        <div class="rounded bg-green-600 pt-2 pb-2 text-white">G</div>
-        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">U</div>
-        <div class="rounded bg-gray-500 pt-2 pb-2 text-white">E</div>
-        <div class="rounded bg-green-600 pt-2 pb-2 text-white">S</div>
-        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">S</div>
+        <.letter color={:green} letter="G" />
+        <.letter color={:yellow} letter="U" />
+        <.letter color={:gray} letter="E" />
+        <.letter color={:green} letter="S" />
+        <.letter color={:yellow} letter="S" />
 
-        <div class="rounded bg-green-600 pt-2 pb-2 text-white">G</div>
-        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">U</div>
-        <div class="rounded bg-gray-500 pt-2 pb-2 text-white">E</div>
-        <div class="rounded bg-green-600 pt-2 pb-2 text-white">S</div>
-        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">S</div>
+        <.letter color={:green} letter="G" />
+        <.letter color={:yellow} letter="U" />
+        <.letter color={:gray} letter="E" />
+        <.letter color={:green} letter="S" />
+        <.letter color={:yellow} letter="S" />
 
-        <div class="rounded bg-green-600 pt-2 pb-2 text-white">G</div>
-        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">U</div>
-        <div class="rounded bg-gray-500 pt-2 pb-2 text-white">E</div>
-        <div class="rounded bg-green-600 pt-2 pb-2 text-white">S</div>
-        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">S</div>
+        <.letter color={:green} letter="G" />
+        <.letter color={:yellow} letter="U" />
+        <.letter color={:gray} letter="E" />
+        <.letter color={:green} letter="S" />
+        <.letter color={:yellow} letter="S" />
 
-        <div class="rounded bg-green-600 pt-2 pb-2 text-white">G</div>
-        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">U</div>
-        <div class="rounded bg-gray-500 pt-2 pb-2 text-white">E</div>
-        <div class="rounded bg-green-600 pt-2 pb-2 text-white">S</div>
-        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">S</div>
+        <.letter color={:green} letter="G" />
+        <.letter color={:yellow} letter="U" />
+        <.letter color={:gray} letter="E" />
+        <.letter color={:green} letter="S" />
+        <.letter color={:yellow} letter="S" />
 
-        <div class="rounded bg-green-600 pt-2 pb-2 text-white">G</div>
-        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">U</div>
-        <div class="rounded bg-gray-500 pt-2 pb-2 text-white">E</div>
-        <div class="rounded bg-green-600 pt-2 pb-2 text-white">S</div>
-        <div class="rounded bg-yellow-500 pt-2 pb-2 text-white">S</div>
-    </div>
+        <.letter color={:green} letter="G" />
+        <.letter color={:yellow} letter="U" />
+        <.letter color={:gray} letter="E" />
+        <.letter color={:green} letter="S" />
+        <.letter color={:yellow} letter="S" />
+      </div>
 
-    <br/>
-    <br/>
-    <hr/>
-    <br/>
-    <br/>
+      <br />
+      <br />
+      <hr />
+      <br />
+      <br />
 
-    <div class="grid grid-cols-10 gap-3 text-center font-bold">
+      <div class="grid grid-cols-10 gap-3 text-center font-bold">
         <div class="rounded bg-green-600 pt-1 pb-1 text-white">Q</div>
         <div class="rounded bg-yellow-500 pt-1 pb-1 text-white">W</div>
         <div class="rounded bg-gray-500 pt-1 pb-1 text-white">E</div>
@@ -130,8 +128,36 @@ defmodule BreakdownWeb.WordxLive do
         <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">M</div>
         <div></div>
         <div></div>
-    </div>
+      </div>
     </div>
     """
+  end
+
+  def letter(assigns) do
+    ~H"""
+    <div class={[letter_color(@color), "pt-2 pb-2 rounded"]}>
+      <%= @letter %>
+    </div>
+    """
+  end
+
+  defp split_guess(guess) do
+    guess |> String.pad_trailing(5) |> String.graphemes()
+  end
+
+  defp letter_color(:green) do
+    ["bg-green-600", "text-white"]
+  end
+
+  defp letter_color(:yellow) do
+    ["bg-yellow-500", "text-white"]
+  end
+
+  defp letter_color(:gray) do
+    ["bg-gray-500", "text-white"]
+  end
+
+  defp letter_color(_) do
+    ["border-2", "border-gray-500"]
   end
 end
