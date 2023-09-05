@@ -19,6 +19,7 @@ defmodule BreakdownWeb.Router do
 
     get "/", PageController, :home
     live "/example", ExampleLive, :play
+    live "/wordx", WordxLive, :wordx
   end
 
   # Other scopes may use custom stacks.
