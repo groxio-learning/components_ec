@@ -18,10 +18,11 @@ defmodule Breakdown.Game.Turn do
     tail
   end
 
-  def to_guess(guess) do
-    case length(guess) do
-      5 -> {:ok, Enum.reverse(guess) |> to_string}
-      _ -> {:error, "Invalid length"}
-    end
-  end
+  def to_guess(guess), do: Enum.reverse(guess) |> to_string
+  # def to_guess(guess) do
+  #   case length(guess) do
+  #     5 -> {:ok, Enum.reverse(guess) |> to_string}
+  #     _ -> {:error, "Invalid length"}
+  #   end
+  # end
 end
