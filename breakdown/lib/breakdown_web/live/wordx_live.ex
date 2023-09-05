@@ -14,6 +14,22 @@ defmodule BreakdownWeb.WordxLive do
     </pre>
     <p>Hello World</p>
     <.everything />
+    <.move />
+    """
+  end
+
+  def handle_event("move", _, socket) do
+    {:noreply, guess(socket)}
+  end
+
+  def guess(socket) do
+    new_game = Core.guess(socket.assigns.game, "guess")
+    assign(socket, :game, new_game)
+  end
+
+  def move(assigns) do
+    ~H"""
+    <button class="button" phx-click="move">Move!</button>
     """
   end
 
