@@ -1,21 +1,23 @@
-defmodule BreakdownWeb.WordxLive do 
+defmodule BreakdownWeb.WordxLive do
   use BreakdownWeb, :live_view
+  alias Breakdown.Game.Core
 
-  def mount(_params, _session, socket) do 
-    {:ok, socket}
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, :game, Core.new())}
+
   end
 
-  def render(assigns) do 
+  def render(assigns) do
     ~H"""
     <pre>
-      <%= inspect assigns, pretty: true %>
+      <%= inspect @game, pretty: true %>
     </pre>
     <p>Hello World</p>
     <.everything />
     """
   end
 
-  def everything(assigns) do 
+  def everything(assigns) do
     ~H"""
     <div class="mx-auto max-w-sm">
     <header class="flex items-center justify-between gap-6"}>
