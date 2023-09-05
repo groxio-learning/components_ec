@@ -14,8 +14,7 @@ defmodule BreakdownWeb.WordxLive do
        game |> Core.guess("house") |> Core.guess("guest") |> Core.guess("guess")
      )
      |> assign(:keyboard, Core.to_keyboard(game))
-     |> reset_turn()
-     |> assign(:guess, "")}
+     |> reset_turn()}
   end
 
   defp reset_turn(socket) do
@@ -28,24 +27,46 @@ defmodule BreakdownWeb.WordxLive do
       <%= inspect @turn, pretty: true %>
     </pre>
     <p>Hello World</p>
-    <.everything guess={@guess} game={@game} keyboard={@keyboard}/>
-    <.move />
+    <.everything turn={@turn} game={@game} keyboard={@keyboard} />
     """
   end
 
-  def handle_event("move", _, socket) do
+  def handle_event("make-guess", _, socket) do
     {:noreply, guess(socket)}
   end
 
-  def guess(socket) do
-    new_game = Core.guess(socket.assigns.game, "guess")
-    assign(socket, :game, new_game)
+  def handle_event("delete-letter", _, socket) do
+    {:noreply, delete(socket)}
   end
 
-  def move(assigns) do
-    ~H"""
-    <button class="button" phx-click="move">Move!</button>
-    """
+  def handle_event("add-letter", %{"letter" => ""}, socket) do
+    {:noreply, socket}
+  end
+
+  def handle_event("add-letter", %{"letter" => letter}, socket) do
+    {:noreply, assign(socket, :turn, Turn.add_letter(socket.assigns.turn, letter))}
+  end
+
+  def guess(socket) do
+    case Turn.to_guess(socket.assigns.turn) do
+      guess when byte_size(guess) >= 5 ->
+        new_game = Game.guess(socket.assigns.game, guess)
+
+        socket
+        |> assign(:game, new_game)
+        |> reset_turn()
+
+      _ ->
+        socket
+        |> put_flash(:error, "Invalid guess")
+    end
+  end
+
+  def delete(socket) do
+    new_turn = Turn.remove_letter(socket.assigns.turn)
+
+    socket
+    |> assign(:turn, new_turn)
   end
 
   def everything(assigns) do
@@ -62,14 +83,12 @@ defmodule BreakdownWeb.WordxLive do
         </div>
       </header>
 
-      <br />
-      <br />
       <hr />
       <br />
       <br />
 
       <.grid>
-        <.input_row guess={@guess} />
+        <.input_row guess={Turn.to_guess(@turn)} />
 
         <.score_row :for={score <- Enum.reverse(@game.scores)} score={score} />
       </.grid>
@@ -83,50 +102,12 @@ defmodule BreakdownWeb.WordxLive do
       <.grid>
         <.keyboard_letter :for={{letter, color} <- @keyboard} letter={letter} color={color} />
       </.grid>
-      <%!-- <div class="grid grid-cols-10 gap-3 text-center font-bold">
-        <div class="rounded bg-green-600 pt-1 pb-1 text-white">Q</div>
-        <div class="rounded bg-yellow-500 pt-1 pb-1 text-white">W</div>
-        <div class="rounded bg-gray-500 pt-1 pb-1 text-white">E</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">R</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">T</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">Y</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">U</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">I</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">O</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">P</div>
-
-        <div class="rounded bg-green-600 pt-1 pb-1 text-white">A</div>
-        <div class="rounded bg-yellow-500 pt-1 pb-1 text-white">S</div>
-        <div class="rounded bg-gray-500 pt-1 pb-1 text-white">D</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">F</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">G</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">H</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">J</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">K</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">L</div>
-        <div></div>
-
-        <div></div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">Z</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">X</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">C</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">V</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">B</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">N</div>
-        <div class="rounded border-2 border-solid border-slate-600 pt-1 pb-1 text-black">M</div>
-        <div></div>
-        <div></div> --%>
+      <div class="my-4 text-center">
+        <.button :if={show_enter?(@turn)} phx-click="make-guess">Enter</.button>
+        <.button phx-click="delete-letter">Delete</.button>
       </div>
-    <%!-- </div> --%>
+    </div>
     """
-  end
-
-  def handle_event("add-letter", %{"letter" => letter}, socket) do
-    new_turn =
-      socket.assigns.turn
-      |> Turn.add_letter(letter)
-
-    {:noreply, socket |> assign(:turn, new_turn) |> assign(:guess, Turn.to_guess(new_turn))}
   end
 
   slot(:inner_block)
@@ -158,7 +139,11 @@ defmodule BreakdownWeb.WordxLive do
 
   def keyboard_letter(assigns) do
     ~H"""
-    <button class={[letter_color(@color), "pt-2 pb-2 rounded"]} phx-value-letter={@letter} phx-click="add-letter">
+    <button
+      class={[letter_color(@color), "pt-2 pb-2 rounded"]}
+      phx-value-letter={@letter}
+      phx-click="add-letter"
+    >
       <%= @letter %>
     </button>
     """
@@ -166,7 +151,7 @@ defmodule BreakdownWeb.WordxLive do
 
   def letter(assigns) do
     ~H"""
-    <div class={[letter_color(@color), "pt-2 pb-2 rounded"]}>
+    <div class={[letter_color(@color), "pt-2 pb-2 rounded uppercase"]}>
       <%= if @letter, do: @letter, else: " " %>
     </div>
     """
@@ -190,5 +175,9 @@ defmodule BreakdownWeb.WordxLive do
 
   defp letter_color(_) do
     ["border-2", "border-gray-500"]
+  end
+
+  defp show_enter?(turn) do
+    String.length(Turn.to_guess(turn)) >= 5
   end
 end
