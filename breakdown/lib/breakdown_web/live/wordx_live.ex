@@ -2,12 +2,21 @@ defmodule BreakdownWeb.WordxLive do
   use BreakdownWeb, :live_view
   alias Breakdown.Game.Core
   alias Breakdown.Game
+  alias Breakdown.Game.Turn
 
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:game, Game.new() |> Core.guess("house") |> Core.guess("guest") |> Core.guess("guess"))
+     |> assign(
+       :game,
+       Game.new() |> Core.guess("house") |> Core.guess("guest") |> Core.guess("guess")
+     )
+     |> reset_turn()
      |> assign(:guess, "ABC")}
+  end
+
+  defp reset_turn(socket) do
+    assign(socket, :turn, Turn.new())
   end
 
   def render(assigns) do
