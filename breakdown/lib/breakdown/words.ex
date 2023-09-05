@@ -1,6 +1,6 @@
 defmodule Breakdown.Words do
   @filename "./priv/words/words.txt"
-  @word_list (@filename |> File.read!() |> String.split("\n"))
+  @word_list @filename |> File.read!() |> String.split("\n")
   @word_mapset MapSet.new(@word_list)
 
   def random(), do: Enum.random(@word_list)

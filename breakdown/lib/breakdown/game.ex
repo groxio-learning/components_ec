@@ -1,6 +1,7 @@
 defmodule Breakdown.Game do
   alias Breakdown.Game.Core
   alias Breakdown.Words
+
   def new() do
     Words.random()
     |> Core.new()
