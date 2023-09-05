@@ -5,7 +5,7 @@ defmodule BreakdownWeb.WordxLive do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:game, Core.new())
+     |> assign(:game, Core.new() |> Core.guess("house") |> Core.guess("guest") |> Core.guess("guess"))
      |> assign(:guess, "ABC")}
   end
 
@@ -15,7 +15,7 @@ defmodule BreakdownWeb.WordxLive do
       <%= inspect @game, pretty: true %>
     </pre>
     <p>Hello World</p>
-    <.everything guess={@guess} />
+    <.everything guess={@guess} game={@game} />
     <.move />
     """
   end
@@ -55,39 +55,11 @@ defmodule BreakdownWeb.WordxLive do
       <br />
       <br />
 
-      <div class="grid grid-cols-5 gap-4 text-center font-bold">
-        <.letter :for={letter <- split_guess(@guess)} color={:white} letter={letter} />
+      <.grid >
+        <.input_row guess={@guess} />
 
-        <.letter color={:green} letter="G" />
-        <.letter color={:yellow} letter="U" />
-        <.letter color={:gray} letter="E" />
-        <.letter color={:green} letter="S" />
-        <.letter color={:yellow} letter="S" />
-
-        <.letter color={:green} letter="G" />
-        <.letter color={:yellow} letter="U" />
-        <.letter color={:gray} letter="E" />
-        <.letter color={:green} letter="S" />
-        <.letter color={:yellow} letter="S" />
-
-        <.letter color={:green} letter="G" />
-        <.letter color={:yellow} letter="U" />
-        <.letter color={:gray} letter="E" />
-        <.letter color={:green} letter="S" />
-        <.letter color={:yellow} letter="S" />
-
-        <.letter color={:green} letter="G" />
-        <.letter color={:yellow} letter="U" />
-        <.letter color={:gray} letter="E" />
-        <.letter color={:green} letter="S" />
-        <.letter color={:yellow} letter="S" />
-
-        <.letter color={:green} letter="G" />
-        <.letter color={:yellow} letter="U" />
-        <.letter color={:gray} letter="E" />
-        <.letter color={:green} letter="S" />
-        <.letter color={:yellow} letter="S" />
-      </div>
+        <.score_row :for={score <- Enum.reverse(@game.scores)} score={score} />
+      </.grid>
 
       <br />
       <br />
@@ -133,6 +105,30 @@ defmodule BreakdownWeb.WordxLive do
     """
   end
 
+  slot :inner_block
+  def grid(assigns) do
+    ~H"""
+      <div class="grid grid-cols-5 gap-4 text-center font-bold">
+        <%= render_slot @inner_block %>
+      </div>
+    """
+  end
+
+  attr :guess, :string, required: true
+  def input_row(assigns) do
+    ~H"""
+    <.letter :for={letter <- split_guess(@guess)} color={:white} letter={letter} />
+    """
+  end
+
+  def score_row(assigns) do
+    ~H"""
+    <.letter :for={{letter, color} <- @score} color={color} letter={letter} />
+    """
+  end
+
+  attr :color, :atom, required: true
+  attr :letter, :string, required: true
   def letter(assigns) do
     ~H"""
     <div class={[letter_color(@color), "pt-2 pb-2 rounded"]}>
